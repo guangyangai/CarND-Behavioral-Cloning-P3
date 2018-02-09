@@ -21,9 +21,9 @@ def generator(samples, batch_size=32):
 			images = []
 			angles = []
 			for batch_sample in batch_samples:
-				center_image_name = '../data/IMG/'+batch_sample[0].split('/')[-1]
-				left_image_name = '../data/IMG/'+batch_sample[1].split('/')[-1]
-				right_image_name = '../data/IMG/'+batch_sample[2].split('/')[-1]
+				center_image_name = 'data/IMG/'+batch_sample[0].split('/')[-1]
+				left_image_name = 'data/IMG/'+batch_sample[1].split('/')[-1]
+				right_image_name = 'data/IMG/'+batch_sample[2].split('/')[-1]
 				center_image = cv2.imread(center_image_name)
 				left_image = cv2.imread(left_image_name)
 				right_image = cv2.imread(right_image_name)
@@ -45,7 +45,7 @@ def generator(samples, batch_size=32):
 			yield sklearn.utils.shuffle(X_train, y_train)
 
 samples = []
-training_file = '../data/driving_log.csv'
+training_file = 'data/driving_log.csv'
 with open(training_file, 'r') as csvfile:
 	reader = csv.reader(csvfile)
 	for line in reader:
