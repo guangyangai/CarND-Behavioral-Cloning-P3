@@ -49,6 +49,7 @@ samples = []
 training_file = 'data/driving_log.csv'
 with open(training_file, 'r') as csvfile:
 	reader = csv.reader(csvfile)
+	next(reader, None)
 	for line in reader:
 		samples.append(line)
 
