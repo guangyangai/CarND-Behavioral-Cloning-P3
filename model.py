@@ -61,7 +61,7 @@ model = Sequential()
 #normalizing
 model.add(Lambda(lambda x: x/255.0 - 0.5, input_shape=(160,320,3)))
 #cropping
-model.add(Cropping2D(cropping=((70,25), (0,0)))
+model.add(Cropping2D(cropping=((70,25), (0,0))))
 #network
 model.add(Convolution2D(6,5,5, activation = 'relu'))
 model.add(MaxPooling2D())
