@@ -31,8 +31,8 @@ def generator(samples, batch_size=32):
 				center_angle = float(batch_sample[3])
 				left_angle = center_angle + CORRECTION
 				right_angle = center_angle - CORRECTION
-				images.extend(center_image, left_image, right_image)
-				angles.extend(center_angle, left_angle, right_angle)
+				images.extend([center_image, left_image, right_image])
+				angles.extend([center_angle, left_angle, right_angle])
 			#augment image
 			augmented_images, augmented_angles = [], []
 			for image, angle in zip(images, angles):
