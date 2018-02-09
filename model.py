@@ -8,6 +8,7 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 import sklearn
+from random import shuffle
 from sklearn.model_selection import train_test_split
 
 CORRECTION = 0.2
