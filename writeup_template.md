@@ -18,7 +18,6 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/placeholder.png "Model Visualization"
 [image2]: ./examples/placeholder.png "Grayscaling"
 [image3]: ./examples/placeholder_small.png "Recovery Image"
 [image4]: ./examples/placeholder_small.png "Recovery Image"
@@ -54,51 +53,62 @@ The model.py file contains the code for training and saving the convolution neur
 
 #### 1. An appropriate model architecture has been employed
 
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
+My model consists of a convolution neural network with 5x5 filter sizes and depths of 6.
 
-The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18). 
+Data is normalized in the model using a Keras lambda layer.
+
+Tried to add RELU layers to introduce nonlinearity, but the validation error becomes larger. 
 
 #### 2. Attempts to reduce overfitting in the model
 
-The model contains dropout layers in order to reduce overfitting (model.py lines 21). 
-
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+The model was trained and validated on different data sets to ensure that the model was not overfitting. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
 #### 3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
+The model used an adam optimizer, so the learning rate was not tuned manually.
 
 #### 4. Appropriate training data
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road ... 
+Because of time limit, I did not use training mode to collect data. Instead, I just used the provided dataset.
 
-For details about how I created the training data, see the next section. 
+I am fully aware the model can be trained better with more driving data, such a combination of center lane driving, recovering from the left and right sides of the road and getting more data from track 2. 
 
 ### Model Architecture and Training Strategy
 
 #### 1. Solution Design Approach
 
-The overall strategy for deriving a model architecture was to ...
-
-My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
-
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
-
-To combat the overfitting, I modified the model so that ...
-
-Then I ... 
-
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
-
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
+I combined a few layers introduced in the lecture and gave a shot. The result look reasonable. I did a test with a more complicated network with activation layer and dropout layer. The validation loss is actually higher than the current model. 
+6528/6428 [==============================] - 15s - loss: 0.6186 - val_loss: 0.0444
+Epoch 2/10
+6528/6428 [==============================] - 11s - loss: 0.0429 - val_loss: 0.0415
+Epoch 3/10
+6528/6428 [==============================] - 11s - loss: 0.0387 - val_loss: 0.0480
+Epoch 4/10
+6528/6428 [==============================] - 11s - loss: 0.0316 - val_loss: 0.0422
+Epoch 5/10
+6528/6428 [==============================] - 11s - loss: 0.0291 - val_loss: 0.0357
+Epoch 6/10
+6504/6428 [==============================] - 12s - loss: 0.0267 - val_loss: 0.0393
+Epoch 7/10
+6528/6428 [==============================] - 11s - loss: 0.0235 - val_loss: 0.0433
+Epoch 8/10
+6528/6428 [==============================] - 11s - loss: 0.0228 - val_loss: 0.0389
+Epoch 9/10
+6528/6428 [==============================] - 11s - loss: 0.0229 - val_loss: 0.0425
+Epoch 10/10
+6528/6428 [==============================] - 11s - loss: 0.0228 - val_loss: 0.0339
 
 #### 2. Final Model Architecture
 
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
-
-Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
-
-![alt text][image1]
+The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes:
+1. Normalizing layer 
+2. Cropping layer focused on the driving lane 
+3. 6 filters of 5*5 Convolutional layer
+4. MaxPooling layer ( pooling size by default)
+5. Another layer of 6 5*5 Convolutional layer
+6. Another MaxPooling layer
+7. Flatten Layer
+8. 3 fully connected layer
 
 #### 3. Creation of the Training Set & Training Process
 
