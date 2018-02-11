@@ -14,7 +14,7 @@ from sklearn.model_selection import train_test_split
 
 CORRECTION = 0.2
 
-def generator(samples, batch_size=32):
+def generator(samples, batch_size=256):
 	num_samples = len(samples)
 	while 1: # Loop forever so the generator never terminates
 		shuffle(samples)
@@ -65,16 +65,16 @@ validation_generator = generator(validation_samples, batch_size=32)
 
 #build model
 model = Sequential()
-#cropping
-model.add(Cropping2D(cropping=((70,25), (0,0))))
 #normalizing
 model.add(Lambda(lambda x: x/255.0 - 0.5, input_shape=(160,320,3)))
+model.add(Cropping2D(cropping=((70,25), (0,0))))
 #network
 model.add(Convolution2D(6,5,5, activation = 'relu'))
 model.add(MaxPooling2D())
-model.add(Dropout(0.5))
-model.add(Convolution2D(16,5,5, activation = 'relu'))
+#model.add(Dropout(0.5))
+model.add(Convolution2D(6,5,5, activation = 'relu'))
 model.add(MaxPooling2D())
+model.add(Dropout(0.5))
 model.add(Flatten())
 model.add(Dense(120))
 model.add(Dense(84))
@@ -94,4 +94,4 @@ history_object = model.fit_generator(train_generator, samples_per_epoch =
 	nb_val_samples = len(validation_samples), 
 	nb_epoch=10, verbose=1, callbacks=[model_checkpoint])
 
-model.save('model.h5')
+#model.save('model.h5')
