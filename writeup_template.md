@@ -76,27 +76,19 @@ I am fully aware the model can be trained better with more driving data, such a 
 ### Model Architecture and Training Strategy
 
 #### 1. Solution Design Approach
+The overall strategy for deriving a model architecture was to ...
 
-I combined a few layers introduced in the lecture and gave a shot. The result look reasonable. I did a test with a more complicated network with activation layer and dropout layer. The validation loss is actually higher than the current model. 
-6528/6428 [==============================] - 15s - loss: 0.6186 - val_loss: 0.0444
-Epoch 2/10
-6528/6428 [==============================] - 11s - loss: 0.0429 - val_loss: 0.0415
-Epoch 3/10
-6528/6428 [==============================] - 11s - loss: 0.0387 - val_loss: 0.0480
-Epoch 4/10
-6528/6428 [==============================] - 11s - loss: 0.0316 - val_loss: 0.0422
-Epoch 5/10
-6528/6428 [==============================] - 11s - loss: 0.0291 - val_loss: 0.0357
-Epoch 6/10
-6504/6428 [==============================] - 12s - loss: 0.0267 - val_loss: 0.0393
-Epoch 7/10
-6528/6428 [==============================] - 11s - loss: 0.0235 - val_loss: 0.0433
-Epoch 8/10
-6528/6428 [==============================] - 11s - loss: 0.0228 - val_loss: 0.0389
-Epoch 9/10
-6528/6428 [==============================] - 11s - loss: 0.0229 - val_loss: 0.0425
-Epoch 10/10
-6528/6428 [==============================] - 11s - loss: 0.0228 - val_loss: 0.0339
+My first step was to use a convolution neural network model similar to the one used to train MNIST. I thought this model might be appropriate because in the lecture, it is mentioned that LeNet is a good place to start. 
+
+In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting.
+
+To combat the overfitting, I modified the model so that ...
+
+Then I ...
+
+The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
+
+At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
 
 #### 2. Final Model Architecture
 
