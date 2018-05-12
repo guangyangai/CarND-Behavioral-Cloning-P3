@@ -85,17 +85,6 @@ The final step was to run the simulator to see how well the car was driving arou
 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road. The resulting model has the such training loss and validation loss at each epoch. Note that I am using Keras 2.1.6 so it's showing the number of batches (instead of number of samples), the batch size is set to 32.
 
-```
-283/282 [==============================] - 102s 360ms/step - loss: 0.2888 - val_loss: 0.0564
-Epoch 2/5
-283/282 [==============================] - 100s 353ms/step - loss: 0.0524 - val_loss: 0.0479
-Epoch 3/5
-283/282 [==============================] - 99s 350ms/step - loss: 0.0474 - val_loss: 0.0476
-Epoch 4/5
-283/282 [==============================] - 99s 351ms/step - loss: 0.0456 - val_loss: 0.0457
-Epoch 5/5
-283/282 [==============================] - 99s 351ms/step - loss: 0.0444 - val_loss: 0.0465
-```
 
 #### 2. Final Model Architecture
 
