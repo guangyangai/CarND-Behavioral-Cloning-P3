@@ -45,7 +45,7 @@ Using the Udacity provided simulator and my drive.py file, the car can be driven
 ```sh
 python drive.py model.h5
 ```
-
+Note that I was using Keras 2.1.6 so you should use that version of Keras to be able to load and use that model.
 #### 3. Submission code is usable and readable
 
 The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
@@ -108,6 +108,8 @@ The final model architecture (model.py lines 18-24) consisted of a convolution n
 6. Another MaxPooling layer
 7. Flatten Layer
 8. 3 fully connected layer
+The resulting model architecture is plotted. 
+![alt text][image8]
 
 #### 3. Creation of the Training Set & Training Process
 For the first run, I just used the provided training dataset. 
