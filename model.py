@@ -2,7 +2,7 @@ import os
 import csv
 from keras.models import Sequential, Model
 from keras.layers import Flatten, Dense, Lambda, Cropping2D, Activation, Dropout
-from keras.layers.convolutional import Convolution2D
+from keras.layers.convolutional import Conv2D
 from keras.layers.pooling import MaxPooling2D
 from keras.utils import plot_model
 from keras.callbacks import ModelCheckpoint
@@ -14,7 +14,7 @@ from random import shuffle
 from sklearn.model_selection import train_test_split
 
 CORRECTION = 0.2
-
+BATCH_SIZE = 32
 def read_data(training_file, samples):
 	with open(training_file, 'r') as csvfile:
 		reader = csv.reader(csvfile)
@@ -68,19 +68,19 @@ samples = read_data(training_file_from_simulator, samples)
 
 train_samples, validation_samples = train_test_split(samples, test_size=0.2)
 
-train_generator = generator(train_samples, batch_size=32)
-validation_generator = generator(validation_samples, batch_size=32)
+train_generator = generator(train_samples, batch_size=BATCH_SIZE)
+validation_generator = generator(validation_samples, batch_size=BATCH_SIZE)
 
 #build model
 model = Sequential()
 #normalizing
-model.add(Cropping2D(cropping=((70,25), (0,0))))
+model.add(Cropping2D(cropping=((70,25), (0,0)), input_shape=(160,320,3)))
 model.add(Lambda(lambda x: x/255.0 - 0.5, input_shape=(65,320,3)))
 #network
-model.add(Convolution2D(6,5,5, activation = 'relu'))
+model.add(Conv2D(6,(5,5), activation = 'relu'))
 model.add(MaxPooling2D())
 #model.add(Dropout(0.5))
-model.add(Convolution2D(6,5,5, activation = 'relu'))
+model.add(Conv2D(6,(5,5), activation = 'relu'))
 model.add(MaxPooling2D())
 model.add(Dropout(0.5))
 model.add(Flatten())
@@ -95,11 +95,11 @@ model.compile(loss='mse', optimizer='adam')
 filepath = 'weights.{epoch:02d}-{val_loss:.2f}.hdf5'
 model_checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=0, save_best_only=True, save_weights_only=False, mode='auto', period=1)
 
-history_object = model.fit_generator(train_generator, samples_per_epoch =
-	len(train_samples), validation_data = 
+history_object = model.fit_generator(train_generator, steps_per_epoch =
+	len(train_samples)/BATCH_SIZE, validation_data = 
 	validation_generator,
-	nb_val_samples = len(validation_samples), 
-	nb_epoch=10, verbose=1, callbacks=[model_checkpoint])
+	validation_steps = len(validation_samples)//BATCH_SIZE, 
+	epochs=5, verbose=1, callbacks=[model_checkpoint])
 
 
 model.save('model.h5')
