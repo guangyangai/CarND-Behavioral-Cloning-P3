@@ -82,7 +82,7 @@ After augmenting and pre-processing the initial sample training data, I could ge
 
 The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track. Those spots have big turns and normally the vehicle is already off the middle of the road to some degreee. To improve the driving behavior in these cases, I created another dataset specifically to train the vehicle to recover from such cases.
 
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road. The resulting model has the such training loss and validation loss at each epoch. Note that I am using Keras 2.1.6 so it's showing the number of batches (instead of number of samples), the batch size is set to 32.
+At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road (see video run2). The resulting model has the such training loss and validation loss at each epoch. Note that I am using Keras 2.1.6 so it's showing the number of batches (instead of number of samples), the batch size is set to 32.
 
 
 #### 2. Final Model Architecture
