@@ -24,6 +24,7 @@ The goals / steps of this project are the following:
 [image5]: ./examples/placeholder_small.png "Recovery Image"
 [image6]: ./output_images/flip.png "Flipped Image"
 [image7]: ./output_images/loss_epoch.png "Training Epoch"
+[image8]: model.png "Network Architecture"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -69,32 +70,38 @@ The model used an adam optimizer, so the learning rate was not tuned manually.
 
 #### 4. Appropriate training data
 
-Because of time limit, I did not use training mode to collect data. Instead, I just used the provided dataset.
-
-I am fully aware the model can be trained better with more driving data, such a combination of center lane driving, recovering from the left and right sides of the road and getting more data from track 2. 
+I used the sample training data provided by udacity, combinied with the recovery training data I created by myself. To me, the data is extremely important in this kind of setting to train the vehicle to recover when the vehicle is about to get off the road.
 
 ### Model Architecture and Training Strategy
 
 #### 1. Solution Design Approach
-The overall strategy for deriving a model architecture was to ...
+
 
 My first step was to use a convolution neural network model similar to the one used to train MNIST. I thought this model might be appropriate because in the lecture, it is mentioned that LeNet is a good place to start. 
 
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting.
+After augmenting and pre-processing the initial sample training data, I could get a reasonable fit with regards to both the validation and training set. 
 
-To combat the overfitting, I modified the model so that ...
+The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track. Those spots have big turns and normally the vehicle is already off the middle of the road to some degreee. To improve the driving behavior in these cases, I created another dataset specifically to train the vehicle to recover from such cases.
 
-Then I ...
+At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road. The resulting model has the such training loss and validation loss at each epoch. Note that I am using Keras 2.1.6 so it's showing the number of batches (instead of number of samples), the batch size is set to 32.
 
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
-
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
+```
+283/282 [==============================] - 102s 360ms/step - loss: 0.2888 - val_loss: 0.0564
+Epoch 2/5
+283/282 [==============================] - 100s 353ms/step - loss: 0.0524 - val_loss: 0.0479
+Epoch 3/5
+283/282 [==============================] - 99s 350ms/step - loss: 0.0474 - val_loss: 0.0476
+Epoch 4/5
+283/282 [==============================] - 99s 351ms/step - loss: 0.0456 - val_loss: 0.0457
+Epoch 5/5
+283/282 [==============================] - 99s 351ms/step - loss: 0.0444 - val_loss: 0.0465
+```
 
 #### 2. Final Model Architecture
 
 The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes:
-1. Normalizing layer 
-2. Cropping layer focused on the driving lane 
+1. Cropping layer focused on the driving lane
+2. Normalizing layer
 3. 6 filters of 5*5 Convolutional layer
 4. MaxPooling layer ( pooling size by default)
 5. Another layer of 6 5*5 Convolutional layer
@@ -103,11 +110,12 @@ The final model architecture (model.py lines 18-24) consisted of a convolution n
 8. 3 fully connected layer
 
 #### 3. Creation of the Training Set & Training Process
-
-Because of time limit, I did not use training mode to collect data. Instead, I just used the provided dataset.
+For the first run, I just used the provided training dataset. 
 To augment the data sat, I also flipped images and angles thinking that this would relieve the problem of overfitting.  
 ![alt text][image6]
 
 I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The number of epochs of 5 is good enough as evidenced by the figure below. After 5 epochs, the loss change is really small. I used an adam optimizer so that manually training the learning rate wasn't necessary.
 
 ![alt text][image7]
+
+However, the resulting model did not succesfully finish a loop. I noticed that at big turns, the vehicle did not recover well when it is off the middle of the road. To train the vehicle recover better at big turns (basically with larger steering angles), I used the simulator to create my own recovery dataset in the training mode, after including that dataset in the training,  the resulting model successfully controlled the vehicle to finish a loop without getting off the road using the same network architecure in first run.
