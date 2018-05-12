@@ -4,6 +4,7 @@ from keras.models import Sequential, Model
 from keras.layers import Flatten, Dense, Lambda, Cropping2D, Activation, Dropout
 from keras.layers.convolutional import Convolution2D
 from keras.layers.pooling import MaxPooling2D
+from keras.utils import plot_model
 from keras.callbacks import ModelCheckpoint
 import cv2
 import matplotlib.pyplot as plt
@@ -13,6 +14,16 @@ from random import shuffle
 from sklearn.model_selection import train_test_split
 
 CORRECTION = 0.2
+
+
+def read_data(training_file, samples):
+	with open(training_file, 'r') as csvfile:
+		reader = csv.reader(csvfile)
+		next(reader, None)
+		for line in reader:
+			samples.append(line)
+	return samples
+
 
 def generator(samples, batch_size=32):
 	num_samples = len(samples)
@@ -52,11 +63,9 @@ def generator(samples, batch_size=32):
 
 samples = []
 training_file = 'data/driving_log.csv'
-with open(training_file, 'r') as csvfile:
-	reader = csv.reader(csvfile)
-	next(reader, None)
-	for line in reader:
-		samples.append(line)
+training_file_from_simulator = 'data/driving_log_mine.csv'
+samples = read_data(training_file, samples)
+samples = read_data(training_file_from_simulator, samples)
 
 train_samples, validation_samples = train_test_split(samples, test_size=0.2)
 
@@ -68,7 +77,7 @@ model = Sequential()
 #cropping
 model.add(Cropping2D(cropping=((70,25), (0,0))))
 #normalizing
-model.add(Lambda(lambda x: x/255.0 - 0.5, input_shape=(160,320,3)))
+model.add(Lambda(lambda x: x/255.0 - 0.5, input_shape=(65,320,3)))
 #network
 model.add(Convolution2D(6,5,5, activation = 'relu'))
 model.add(MaxPooling2D())
@@ -79,7 +88,6 @@ model.add(Flatten())
 model.add(Dense(120))
 model.add(Dense(84))
 model.add(Dense(1))
-
 
 model.compile(loss='mse', optimizer='adam')
 
@@ -95,3 +103,4 @@ history_object = model.fit_generator(train_generator, samples_per_epoch =
 	nb_epoch=10, verbose=1, callbacks=[model_checkpoint])
 
 model.save('model.h5')
+plot_model(model, to_file='model.png')
