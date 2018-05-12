@@ -54,11 +54,10 @@ The model.py file contains the code for training and saving the convolution neur
 
 #### 1. An appropriate model architecture has been employed
 
-My model consists of a convolution neural network with 5x5 filter sizes and depths of 6.
+My model is based off LeNet model which consists of a convolution neural network with filter sizes of (5,5) and depths of 6.
 
-Data is normalized in the model using a Keras lambda layer.
+Data is processed by cropping to the area of interest and image is normalized in the model using a Keras lambda layer.
 
-Tried to add RELU layers to introduce nonlinearity, but the validation error becomes larger. 
 
 #### 2. Attempts to reduce overfitting in the model
 
