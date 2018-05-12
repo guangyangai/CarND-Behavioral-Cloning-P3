@@ -108,6 +108,7 @@ The final model architecture (model.py lines 18-24) consisted of a convolution n
 6. Another MaxPooling layer
 7. Flatten Layer
 8. 3 fully connected layer
+
 The resulting model architecture is plotted. 
 ![alt text][image8]
 
